@@ -15,16 +15,6 @@ class YandexAdapter(SpeechkitUsecase):
 
     def __init__(self, api_key):
         self.api_key = api_key
-        self.short_file_request_params = {
-            'headers': {
-                'Authorization': f"Api-Key {api_key}"
-            },
-            'params': {
-                "topic": "general",
-                "lang": "ru-RU"
-            },
-            'url': "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize"
-        }
         specification = stt_service_pb2.RecognitionSpec(
             language_code='ru-RU',
             model='general',
