@@ -1,1 +1,1 @@
-Use `scrapy crawl rbc` to run spider
+Run command `scrapy crawl rbc`

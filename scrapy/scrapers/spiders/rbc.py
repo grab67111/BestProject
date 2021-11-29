@@ -3,17 +3,21 @@ import re
 from bs4 import BeautifulSoup as bs
 import scrapy
 from scrapy import Selector
+from loguru import logger
+
+from ..services.m3u8 import parse_m3u8
 
 
 url = "https://www.rbc.ru/"
 
 AJAX_HOST = "https://www.rbc.ru/v10/ajax/get-news-by-filters/?offset="
 
+
 class QuotesSpider(scrapy.Spider):
     name = "rbc"
 
     def start_requests(self):
-        # yield scrapy.Request(url=url, callback=self.parse)
+        yield scrapy.Request(url=url, callback=self.parse)
         for offset in range(0, 1020, 20):
             if offset == 1020:
                 yield scrapy.Request(url=url, callback=self.parse)
@@ -49,10 +53,13 @@ class QuotesSpider(scrapy.Spider):
         ))
 
         try:
-            videos = tuple(map(
+            videos = []
+            for video in tuple(map(
                 lambda x: x['data-shorturl'],
                 soup.find_all(class_='js-insert-video')
-            ))
+            )):
+                for url in parse_m3u8(video):
+                    videos.append(url)
         except Exception:
             videos = tuple(map(
                 lambda x: x['data-href'],

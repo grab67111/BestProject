@@ -5,10 +5,8 @@ uvicorn==0.15.0
 PyYAML==6.0
 websockets==10.1
 
-scrapy
 bs4
 m3u8_To_MP4
-requests
 
 # dev
 loguru==0.5.3

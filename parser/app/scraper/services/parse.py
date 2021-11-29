@@ -4,7 +4,6 @@ from ..models.article import Article
 from .fetcher import AsyncFetcher
 from .m3u8 import parse_m3u8, download_to_mp4
 
-from loguru import logger
 
 async def scrape_article(fetcher: AsyncFetcher, url: str) -> Article:
     soup = bs(await fetcher.get_text(url), 'html.parser')
@@ -30,7 +29,7 @@ async def scrape_article(fetcher: AsyncFetcher, url: str) -> Article:
     )):
         async for url in parse_m3u8(video, fetcher):
             videos.append(url)
-    download_to_mp4(videos[-1])
+    # download_to_mp4(videos[-1])
 
     return Article(
         title=title, body=body,

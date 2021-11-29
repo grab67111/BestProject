@@ -1,7 +1,6 @@
 from .config.lazy import settings
 
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
+from elasticsearch import AsyncElasticsearch
 
 
-scrapy_process = CrawlerProcess(get_project_settings())
+elastic = AsyncElasticsearch()

@@ -1,8 +1,10 @@
+from enum import Enum
 from functools import partial
 from typing import Optional
 
 from fastapi import APIRouter, Depends
 from fastapi import File, UploadFile
+from loguru import logger
 
 from ..dependecies import SPEECHKITS, ws_manager
 
@@ -20,7 +22,7 @@ async def converter_io(file: UploadFile = File(...)):
 
 @router.post("/recognize")
 async def recognize(
-    speech_model: str,
+    speech_model: Enum("SpeechModel", {key: key for key in SPEECHKITS.keys()}),
     converter: UploadFile = Depends(converter_io),
     user_id: Optional[int] = None,
 ):
@@ -32,10 +34,12 @@ async def recognize(
         for chunk in speechkit.recognize(bytes_content):
             chunks.append(chunk)
             if user_id:
+                logger.debug(chunk)
                 await ws_manager.send_personal_json(chunk.to_dict(), user_id)
 
     final_chunks = tuple(filter(lambda x: x.is_final, chunks))
     final_text = ' '.join((i.alternatives[0] for i in final_chunks))
+    logger.success(final_text)
     if user_id:
         await ws_manager.send_personal_message(final_text, user_id)
     return {"data": final_text}

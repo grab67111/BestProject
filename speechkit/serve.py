@@ -1,13 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-import uvloop
-
 from app.recognizers import urls as r_urls
 from app.ws import urls as ws_urls
 
-
-uvloop.install()
 
 app = FastAPI()
 app.add_middleware(
