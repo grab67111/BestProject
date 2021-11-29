@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.dependecies import elastic
+from .dependecies import elastic
 
-from app.scraper import urls as s_urls
-from app.db import urls as db_urls
+from .scraper import urls as s_urls
+from .db import urls as db_urls
 
 
 app = FastAPI()

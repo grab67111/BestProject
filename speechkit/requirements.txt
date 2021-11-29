@@ -1,12 +1,15 @@
 aiofiles==0.8.0
 fastapi==0.70.0
-uvicorn==0.15.0
 Jinja2==3.0.3
 python-multipart==0.0.5
 PyYAML==6.0
 pydub==0.25.1
 grpcio-tools==1.42.0
 websockets==10.1
+
+# deploy
+uvicorn[standard]
+gunicorn
 
 # dev
 loguru==0.5.3
